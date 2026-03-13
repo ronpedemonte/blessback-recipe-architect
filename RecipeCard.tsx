@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Recipe } from '../types';
-import { useLanguage } from '../contexts/LanguageContext';
+import { Recipe } from './types';
+import { useLanguage } from './LanguageContext';
 
 interface Props {
   recipe: Recipe;
