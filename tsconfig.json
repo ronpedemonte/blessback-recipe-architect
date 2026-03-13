@@ -1,0 +1,7 @@
+{
+  "name": "Remix: BlessBack Recipe Architect",
+  "description": "A professional-grade recipe generator designed for culinary students, restaurant owners, and street vendors to turn available ingredients into profitable, scalable menus.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
