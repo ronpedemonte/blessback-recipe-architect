@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import IngredientInput from './IngredientInput';
 import RecipeCard from './RecipeCard';
-import { generateRecipe, translateRecipe } from './services/geminiService';
+import { generateRecipe, translateRecipe } from './index'; 
 import { Recipe, InventoryItem } from './types';
-import { useLanguage } from './contexts/LanguageContext';
+import { useLanguage } from './LanguageContext';
 
 const App: React.FC = () => {
   const { t, language, setLanguage } = useLanguage();
