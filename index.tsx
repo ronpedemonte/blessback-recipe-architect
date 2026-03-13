@@ -8,7 +8,7 @@ import { Recipe, AnalysisResult } from "../types";
  */
 export const analyzeIngredientsFromImage = async (base64Image: string, language: string = 'en'): Promise<AnalysisResult> => {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
       contents: {
