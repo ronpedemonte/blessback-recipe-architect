@@ -3,7 +3,7 @@ import { Recipe, AnalysisResult } from "./types";
 
 /**
  * Analyzes an image to identify food ingredients.
- * Uses gemini-1.5-flash for ultra-stable multimodal JSON processing.
+ * Uses prompt engineering to bypass API JSON restrictions for images.
  */
 export const analyzeIngredientsFromImage = async (base64Image: string, language: string = 'en'): Promise<AnalysisResult> => {
   try {
@@ -19,27 +19,21 @@ export const analyzeIngredientsFromImage = async (base64Image: string, language:
             },
           },
           {
-            text: `List every food ingredient you see in this photo. Return the result in a JSON object with an 'ingredients' array. Translate the ingredient names to ${language === 'es' ? 'Spanish' : 'English'}.`,
+            text: `Analyze this image and list every food ingredient you see. Return ONLY a raw JSON object with an 'ingredients' array of strings. Do NOT use markdown formatting, backticks, or the word 'json'. Just return the raw JSON object. Translate the ingredient names to ${language === 'es' ? 'Spanish' : 'English'}. Example format: {"ingredients": ["flour", "eggs", "milk"]}`,
           },
         ],
-      },
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            ingredients: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-            }
-          },
-          required: ["ingredients"]
-        }
       }
     });
 
     if (!response.text) throw new Error("The AI returned an empty response.");
-    return JSON.parse(response.text) as AnalysisResult;
+    
+    // Safety net: Clean the text in case the AI still tries to use markdown backticks
+    let rawText = response.text.trim();
+    if (rawText.startsWith('```')) {
+      rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+    }
+
+    return JSON.parse(rawText) as AnalysisResult;
   } catch (e: any) {
     console.error("Vision API Error:", e);
     throw new Error(e.message || "Could not reach the Vision API. Please ensure your internet is active.");
