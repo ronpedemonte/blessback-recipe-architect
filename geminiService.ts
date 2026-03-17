@@ -1,6 +1,5 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
-import { Recipe, AnalysisResult } from "../types";
+import { Recipe, AnalysisResult } from "./types";
 
 /**
  * Analyzes an image to identify food ingredients.
@@ -53,7 +52,7 @@ export const analyzeIngredientsFromImage = async (base64Image: string, language:
  */
 export const generateRecipe = async (ingredients: string[], targetType: string, language: string = 'en', unitSystem: string = 'metric'): Promise<Recipe> => {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
     const prompt = `Business Type: ${targetType}.
 Available Ingredients: ${ingredients.join(', ')}.
 Unit System: ${unitSystem} (Use ${unitSystem === 'metric' ? 'Celsius and grams/ml' : 'Fahrenheit and ounces/cups'} for all temperatures and measurements).
@@ -126,7 +125,7 @@ Include:
  */
 export const translateRecipe = async (recipe: Recipe, language: string, unitSystem: string): Promise<Recipe> => {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
     const prompt = `Translate and convert the following recipe.
 Target Language: ${language === 'es' ? 'Spanish' : 'English'}
 Target Unit System: ${unitSystem} (Use ${unitSystem === 'metric' ? 'Celsius and grams/ml' : 'Fahrenheit and ounces/cups'} for all temperatures and measurements).
