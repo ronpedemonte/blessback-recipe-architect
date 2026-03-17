@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import IngredientInput from './IngredientInput';
 import RecipeCard from './RecipeCard';
-import { generateRecipe, translateRecipe } from './index'; 
+import { generateRecipe, translateRecipe } from './geminiService'; 
 import { Recipe, InventoryItem } from './types';
 import { useLanguage } from './LanguageContext';
 
