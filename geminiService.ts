@@ -3,13 +3,13 @@ import { Recipe, AnalysisResult } from "./types";
 
 /**
  * Analyzes an image to identify food ingredients.
- * Uses gemini-2.5-flash-image for specialized multimodal processing.
+ * Uses gemini-1.5-flash for ultra-stable multimodal JSON processing.
  */
 export const analyzeIngredientsFromImage = async (base64Image: string, language: string = 'en'): Promise<AnalysisResult> => {
   try {
     const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-1.5-flash',
       contents: {
         parts: [
           {
@@ -48,7 +48,7 @@ export const analyzeIngredientsFromImage = async (base64Image: string, language:
 
 /**
  * Generates a business-optimized recipe using professional reasoning.
- * Uses gemini-3-pro-preview for advanced business logic.
+ * Uses gemini-1.5-pro for stable, advanced business logic.
  */
 export const generateRecipe = async (ingredients: string[], targetType: string, language: string = 'en', unitSystem: string = 'metric'): Promise<Recipe> => {
   try {
@@ -67,7 +67,7 @@ Include:
 5. Estimated nutritional information per serving (calories, protein, carbohydrates, fats in grams).`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
+      model: 'gemini-1.5-pro',
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -136,7 +136,7 @@ ${JSON.stringify(recipe)}
 Return the EXACT SAME JSON structure, just translated and with converted units/temperatures. Do not change the id.`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
+      model: 'gemini-1.5-pro',
       contents: prompt,
       config: {
         responseMimeType: "application/json",
