@@ -9,7 +9,7 @@ export const analyzeIngredientsFromImage = async (base64Image: string, language:
   try {
     const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-image',
+      model: 'gemini-2.5-flash',
       contents: {
         parts: [
           {
